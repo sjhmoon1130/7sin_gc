@@ -277,7 +277,7 @@
   .hero-link::after { display: none; }
 
   /* ── 검색 ── */
-  .search-wrap {
+  .search-wrap { position: relative;
     display: flex; align-items: center; gap: 8px;
     padding: 0 0 12px;
     flex-basis: 100%;
@@ -420,6 +420,38 @@
   .table-wrap::-webkit-scrollbar-thumb:hover { background: var(--accent2); }
   /* Firefox */
   .table-wrap { scrollbar-width: thin; scrollbar-color: var(--accent) var(--surface2); }
+
+  /* ── 검색창 포커스 힌트 ── */
+  .search-hint {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px); left: 0;
+    background: var(--surface2); color: var(--text-muted);
+    font-family: 'Space Mono', monospace; font-size: 10px;
+    padding: 6px 12px; border-radius: 6px;
+    border: 1px solid var(--border2);
+    white-space: nowrap; z-index: 300;
+    box-shadow: 0 4px 12px rgba(0,0,0,.2);
+    pointer-events: none;
+  }
+  .search-hint.visible { display: block; }
+  .search-hint span { color: var(--accent); }
+
+  /* ── title-link 툴팁 ── */
+  .title-link { position: relative; }
+  .title-link::after {
+    content: '클릭: 포럼 이동';
+    position: absolute; bottom: calc(100% + 6px); left: 50%;
+    transform: translateX(-50%);
+    background: var(--surface2) !important; color: var(--text-muted) !important;
+    font-family: 'Space Mono', monospace; font-size: 9px;
+    padding: 3px 8px; border-radius: 4px;
+    border: 1px solid var(--border2);
+    white-space: nowrap; pointer-events: none;
+    opacity: 0; transition: opacity .15s;
+    z-index: 300;
+  }
+  .title-link:hover::after { opacity: 1; }
 </style>
 </head>
 <body>
@@ -439,6 +471,7 @@
 <input autocomplete="off" class="search-input" id="search-input" placeholder="영웅명, 업데이트 내용 검색..." type="text"/>
 <button class="search-clear" id="search-clear">✕ 지우기</button>
 <span class="search-result-label" id="search-result-label"></span>
+<div class="search-hint" id="search-hint">영웅명·날짜·내용 검색 &nbsp;|&nbsp; 영웅 칩 <span>길게 클릭</span> → 필터 &nbsp;|&nbsp; <span>ESC</span> 초기화</div>
 </div>
 <div class="hero-filter-wrap" id="hero-filter-wrap">
 <span class="hero-filter-label">영웅 필터</span>
@@ -4324,6 +4357,15 @@
       nodes.forEach(n => highlightNode(n, query));
     });
   }
+
+  // ── 검색창 포커스 힌트 ──
+  const searchHint = document.getElementById('search-hint');
+  searchInput.addEventListener('focus', () => {
+    if (searchHint) searchHint.classList.add('visible');
+  });
+  searchInput.addEventListener('blur', () => {
+    if (searchHint) searchHint.classList.remove('visible');
+  });
 
   searchInput.addEventListener('input', () => {
     removeHighlights();
