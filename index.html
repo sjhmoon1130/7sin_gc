@@ -3,6 +3,7 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8"/>
+  <link rel="icon" type="image/png" href="https://sjhmoon1130.github.io/7sin_gc/favicon.png">
   <meta property="og:title" content="칠대죄 그랜드 크로스 업데이트">
   <meta property="og:description" content="업데이트 내역 확인 및 관리용 대시 보드">
   <meta property="og:image" content="https://sjhmoon1130.github.io/7sin_gc/thumbnail.png">
@@ -4178,7 +4179,7 @@
       const si = document.getElementById('search-input');
       if (si) { si.focus(); si.select(); }
     }
-    // ESC → 검색 초기화 & 영웅 필터 초기화
+    // ESC → 검색 초기화 & 영웅 필터 초기화 & 패널 닫기
     if (e.key === 'Escape') {
       const si = document.getElementById('search-input');
       if (document.activeElement === si) {
@@ -4193,6 +4194,8 @@
         applyFilter();
         if (typeof updateSearchLabel === 'function') updateSearchLabel();
         updateCounts();
+      } else if (typeof closePanel === 'function') {
+        closePanel();
       }
     }
   });
@@ -4454,10 +4457,6 @@
 
   // heroFilters 기준 필터링도 마지막 이름 기준으로 재정의
   // updateRowVisibility 내 heroHidden 로직 오버라이드
-  const _origUpdateRowVisibility = updateRowVisibility;
-  // (updateRowVisibility 이미 heroFilters.size로 체크하므로
-  //  heroMatchesFilter를 rowText 대신 칩별로 적용)
-  // → updateRowVisibility를 재정의
   function updateRowVisibility(row) {
     if (row.classList.contains('year-group')) return;
     const yearHidden = row.hasAttribute('data-year-hidden');
@@ -4544,23 +4543,24 @@
   const panelBtn = document.getElementById('sp-open-btn');
 
   function openPanel(name, date, url) {
-    panelTitle.textContent = name;
-    const d = date.replace(/(\d{4})(\d{2})(\d{2})/, '$1.$2.$3');
-    panelDate.textContent = d;
-    panelUrl.textContent = url;
-    panelBtn.href = url;
+    if (!panel || !overlay) return;
+    if (panelTitle) panelTitle.textContent = name;
+    const d = date ? date.replace(/(\d{4})(\d{2})(\d{2})/, '$1.$2.$3') : '';
+    if (panelDate) panelDate.textContent = d;
+    if (panelUrl) panelUrl.textContent = url || '';
+    if (panelBtn) panelBtn.href = url || '#';
     panel.classList.add('open');
     overlay.classList.add('open');
   }
 
   function closePanel() {
-    panel.classList.remove('open');
-    overlay.classList.remove('open');
+    if (panel) panel.classList.remove('open');
+    if (overlay) overlay.classList.remove('open');
   }
 
   document.getElementById('side-panel-close').addEventListener('click', closePanel);
   overlay.addEventListener('click', closePanel);
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanel(); });
+  // ESC → closePanel: 위 keydown 핸들러에서 처리
 
   // 업데이트 제목 클릭 → 사이드 패널
   document.querySelectorAll('a.title-link').forEach(link => {
