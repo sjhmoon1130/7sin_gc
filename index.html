@@ -453,6 +453,77 @@
     z-index: 300;
   }
   .title-link:hover::after { opacity: 1; }
+
+  /* ── 편집 모드 ── */
+  .edit-btn { font-family:'Space Mono',monospace; font-size:10px; padding:4px 12px; border-radius:4px; border:1px solid #4db8ff; background:transparent; color:#4db8ff; cursor:pointer; white-space:nowrap; }
+  .edit-btn.active { background:#4db8ff; color:#0d0f14; font-weight:700; }
+  .download-btn { display:none; font-family:'Space Mono',monospace; font-size:10px; padding:4px 12px; border-radius:4px; border:1px solid #4caf50; background:transparent; color:#4caf50; cursor:pointer; white-space:nowrap; }
+  .download-btn.visible { display:inline-block; }
+  /* 날짜 추가 행 버튼 */
+  .add-row-tr { display:none; }
+  .edit-mode .add-row-tr { display:table-row; }
+  .add-row-tr td {
+    padding: 4px 12px; text-align:left; border-bottom: 1px dashed var(--border2);
+  }
+  .add-row-tr-btn {
+    font-family:'Space Mono',monospace; font-size:10px;
+    padding: 3px 14px; border-radius:20px;
+    border: 1px dashed #4db8ff; background: transparent;
+    color: #4db8ff; cursor: pointer; transition: all .15s;
+  }
+  .add-row-tr-btn:hover { background: rgba(77,184,255,.1); }
+  .chip-add-btn { display:inline-flex; align-items:center; font-size:10px; padding:2px 7px; border-radius:20px; border:1px dashed var(--border2); background:transparent; color:var(--text-dim); cursor:pointer; white-space:nowrap; vertical-align:middle; margin:2px; }
+  .chip-add-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .eov { display:none; position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:500; align-items:center; justify-content:center; }
+  .eov.open { display:flex; }
+  .emw { background:var(--surface); border:1px solid var(--border2); border-radius:12px; padding:24px; width:460px; max-width:95vw; box-shadow:0 20px 60px rgba(0,0,0,.4); }
+  .emw h3 { font-family:'Space Mono',monospace; font-size:11px; letter-spacing:.1em; color:var(--accent); margin-bottom:16px; text-transform:uppercase; }
+  .emw label { display:block; font-size:11px; color:var(--text-muted); margin:10px 0 3px; }
+  .emw input, .emw select { width:100%; padding:7px 10px; border-radius:6px; border:1px solid var(--border2); background:var(--bg); color:var(--text); font-size:12px; outline:none; box-sizing:border-box; }
+  .emw input:focus, .emw select:focus { border-color:var(--accent); }
+  .emw-btns { display:flex; gap:8px; margin-top:18px; justify-content:flex-end; }
+  .emw-btns button { padding:7px 16px; border-radius:6px; cursor:pointer; font-size:12px; }
+  #em-cancel { border:1px solid var(--border2); background:transparent; color:var(--text-muted); }
+  #em-confirm { border:none; background:var(--accent); color:#0d0f14; font-weight:700; }
+  #em-link-wrap { display:none; }
+  #em-link-wrap.show { display:block; }
+
+  /* 삭제 버튼 */
+  .del-chip-btn {
+    display:inline-flex; align-items:center; justify-content:center;
+    width:14px; height:14px; border-radius:50%;
+    border:1px solid rgba(255,80,80,.5); background:transparent;
+    color:rgba(255,80,80,.7); cursor:pointer; font-size:10px;
+    line-height:1; margin-left:3px; vertical-align:middle;
+    transition:all .15s; padding:0; flex-shrink:0;
+  }
+  .del-chip-btn:hover { background:rgba(255,80,80,.15); border-color:#ff5050; color:#ff5050; }
+  .del-row-btn {
+    display:inline-flex; align-items:center;
+    font-size:9px; padding:1px 7px; border-radius:20px;
+    border:1px solid rgba(255,80,80,.5); background:transparent;
+    color:rgba(255,80,80,.7); cursor:pointer; transition:all .15s;
+    white-space:nowrap; margin-left:6px; vertical-align:middle;
+  }
+  .del-row-btn:hover { background:rgba(255,80,80,.1); border-color:#ff5050; color:#ff5050; }
+
+  .edit-row-btn {
+    display:inline-flex; align-items:center;
+    font-size:9px; padding:1px 7px; border-radius:20px;
+    border:1px solid rgba(77,184,255,.5); background:transparent;
+    color:rgba(77,184,255,.8); cursor:pointer; transition:all .15s;
+    white-space:nowrap; margin-left:6px; vertical-align:middle;
+  }
+  .edit-row-btn:hover { background:rgba(77,184,255,.1); border-color:#4db8ff; color:#4db8ff; }
+  .edit-chip-btn {
+    display:inline-flex; align-items:center; justify-content:center;
+    width:14px; height:14px; border-radius:50%;
+    border:1px solid rgba(77,184,255,.5); background:transparent;
+    color:rgba(77,184,255,.8); cursor:pointer; font-size:9px;
+    line-height:1; margin-left:2px; vertical-align:middle;
+    transition:all .15s; padding:0; flex-shrink:0;
+  }
+  .edit-chip-btn:hover { background:rgba(77,184,255,.15); border-color:#4db8ff; color:#4db8ff; }
 </style>
 </head>
 <body>
@@ -466,7 +537,7 @@
 <button class="filter-btn" data-filter="chapter">챕터</button>
 <button class="filter-btn" data-filter="collab">콜라보</button>
 <button class="sort-btn" id="sort-btn">날짜 ↓ 최신순</button>
-<button class="theme-btn" id="theme-btn">☀️ 라이트</button>
+<button class="edit-btn" id="edit-btn">✏️ 편집</button><button class="download-btn" id="download-btn">⬇️ 저장</button><button class="theme-btn" id="theme-btn">☀️ 라이트</button>
 <div class="search-wrap">
 <span class="filter-label">검색<span class="shortcut-hint">Ctrl+F</span></span>
 <input autocomplete="off" class="search-input" id="search-input" placeholder="영웅명, 업데이트 내용 검색..." type="text"/>
@@ -500,6 +571,10 @@
 <tbody id="tbody">
 <tr class="year-group" data-year-header="2026">
 <td colspan="9"><button class="year-group-btn" onclick="toggleYear('2026')"><span class="yr-label">2026년</span><span class="year-count" id="count-2026">0건</span></button></td>
+</tr><tr class="add-row-tr">
+<td colspan="8" style="padding:4px 12px; border-bottom:1px dashed var(--border2);">
+<button class="add-row-tr-btn" id="add-row-tr-btn">＋ 새 업데이트 날짜 추가</button>
+</td>
 </tr><tr class="" data-date="20260409" data-has="hero content event package bug" data-year="2026"><td class="td-date"><span class="month">2026</span>04.09</td><td class="td-title"><a class="title-link" href="https://forum.netmarble.com/7ds/view/34/654948" target="_blank">4월 9일 업데이트</a></td><td><div class="cell-items"><a class="hero-link" href="https://forum.netmarble.com/7ds/view/139/654946" target="_blank"><span class="chip chip-hero" data-tip="클릭: 포럼 이동 | 길게: 필터">【쾌활한 동급생】 격투가 다이앤</span></a></div></td><td><span class="empty">—</span></td><td><div class="cell-items"><span class="chip chip-content">신규 성물 추가</span><span class="chip chip-content">기사단 보스전 시즌2 마수 켈라크 토벌 (4/12~5/9)</span><span class="chip chip-content">순찰대 특별 임무 추가 (4/9~4/23)</span><span class="chip chip-content">다이아 1개+1개 보너스 상품 판매 종료</span></div></td><td><div class="cell-items"><span class="chip chip-event">그랜드 시즌 스페셜 미션 2부 (4/9~4/23)</span><span class="chip chip-event">오슬로&amp;호크의 신나는 피크닉 (4/9~4/23)</span><span class="chip chip-event">이벤트 토벌전 푸링푸 리턴즈 / 교환소 (4/9~4/23)</span><span class="chip chip-event">7주년 사전등록 이벤트 (4/9~5/21)</span><span class="chip chip-event">전투 이벤트 : 영혼을 위한 영웅담 (4/9~4/15)</span></div></td><td><div class="cell-items"><span class="chip chip-package">그랜드 시즌 봄~ 2부 패키지 3종 추가 (4/9~4/23)</span><span class="chip chip-package">그랜드 시즌 기념 패키지 2종 구매 횟수 초기화 (4/9~4/23)</span><span class="chip chip-package">다이아 티켓 보너스 상품 (4/9~4/23)</span></div></td><td><div class="cell-items"><span class="chip chip-bug">친선전 선공 포기 시 게임 멈춤 수정</span><span class="chip chip-bug">묵시록 4기사 챕터1 25화 대사 오류 수정</span><span class="chip chip-bug">금빛 날개 엘레인 출혈 효과 아군 적용 수정</span><span class="chip chip-bug">연 이화 타오르는 방패 미해제 수정</span></div></td></tr>
 <tr class="" data-date="20260402" data-has="content event package bug" data-year="2026">
 <td class="td-date"><span class="month">2026</span>04.02</td>
@@ -4012,6 +4087,51 @@
 </tbody>
 <div id="no-result-msg">🔍 검색 결과가 없습니다.</div></table>
 </div>
+<div class="side-panel" id="side-panel">
+<div class="side-panel-header">
+<div class="side-panel-title">
+<span class="sp-tag">Hero Guide</span>
+<span id="sp-title"></span>
+</div>
+<button class="side-panel-close" id="side-panel-close">✕</button>
+</div>
+<div class="side-panel-body">
+<div class="sp-info-row">
+<span class="sp-label">업데이트 날짜</span>
+<span class="sp-value" id="sp-date"></span>
+</div>
+<hr class="sp-divider"/>
+<div class="sp-info-row">
+<span class="sp-label">포럼 링크</span>
+<span class="sp-value" id="sp-url"></span>
+</div>
+<a class="sp-open-btn" href="#" id="sp-open-btn" target="_blank">↗ 포럼에서 영웅 안내 보기</a>
+</div>
+</div>
+<div class="side-overlay" id="side-overlay"></div>
+<div class="eov" id="eov">
+<div class="emw">
+<h3 id="em-title">추가</h3>
+<div id="em-row">
+<label>날짜 (YYYY.MM.DD)</label><input id="em-date" maxlength="10" placeholder="2026.04.23"/>
+<label>업데이트 제목</label><input id="em-ttl" placeholder="4월 23일 업데이트"/>
+<label>업데이트 안내 링크</label><input id="em-rlink" placeholder="https://forum.netmarble.com/7ds/view/34/..."/>
+</div>
+<div id="em-chip" style="display:none">
+<label>카테고리</label>
+<select id="em-type">
+<option value="chip-hero">영웅</option>
+<option value="chip-content">콘텐츠</option>
+<option value="chip-event">이벤트</option>
+<option value="chip-package">패키지</option>
+<option value="chip-bug">버그수정</option>
+<option value="chip-chapter">챕터</option>
+</select>
+<label>내용</label><input id="em-text" placeholder="칩 내용"/>
+<div id="em-link-wrap"><label>포럼 링크 (영웅 칩)</label><input id="em-link" placeholder="https://forum.netmarble.com/..."/></div>
+</div>
+<div class="emw-btns"><button id="em-cancel">취소</button><button id="em-confirm">추가</button></div>
+</div></div>
 <script>
   let activeFilter = 'all';
   let sortAsc = false;
@@ -4366,15 +4486,14 @@
       if (searchHint) searchHint.classList.remove('visible');
     });
     searchInput.addEventListener('input', () => {
-    removeHighlights();
-    searchQuery = searchInput.value.trim();
-    searchClear.classList.toggle('visible', searchQuery.length > 0);
-    applyFilter();
-    if (searchQuery) applyHighlight(searchQuery);
-    updateSearchLabel();
-    updateCounts();
-  });
-
+      removeHighlights();
+      searchQuery = searchInput.value.trim();
+      if (searchClear) searchClear.classList.toggle('visible', searchQuery.length > 0);
+      applyFilter();
+      if (searchQuery) applyHighlight(searchQuery);
+      updateSearchLabel();
+      updateCounts();
+    });
   } // end searchInput
   if (searchClear) searchClear.addEventListener('click', () => {
     removeHighlights();
@@ -4571,7 +4690,8 @@
     if (overlay) overlay.classList.remove('open');
   }
 
-  document.getElementById('side-panel-close').addEventListener('click', closePanel);
+  const spClose = document.getElementById('side-panel-close');
+  if (spClose) spClose.addEventListener('click', closePanel);
   if (overlay) overlay.addEventListener('click', closePanel);
   // ESC → closePanel: 위 keydown 핸들러에서 처리
 
@@ -4602,29 +4722,328 @@
       openPanel(name, date, url);
     });
   });
+
+
+  // ── 편집 모드 ──
+  (function() {
+
+    let editMode = false, modalMode = 'row', tDate = '', tType = '';
+    const editBtn = document.getElementById('edit-btn');
+    const dlBtn = document.getElementById('download-btn');
+    const eov = document.getElementById('eov');
+    const emType = document.getElementById('em-type');
+    const emLinkWrap = document.getElementById('em-link-wrap');
+
+    // 필수 요소 없으면 중단
+    if (!editBtn || !eov || !emType) return;
+
+    editBtn.addEventListener('click', () => {
+      editMode = !editMode;
+      editBtn.classList.toggle('active', editMode);
+      editBtn.textContent = editMode ? '✏️ 편집 중' : '✏️ 편집';
+      document.getElementById('tbody').classList.toggle('edit-mode', editMode);
+      editMode ? attach() : detach();
+    });
+
+    // 날짜 추가 버튼
+    const addRowTrBtn = document.getElementById('add-row-tr-btn');
+    if (addRowTrBtn) addRowTrBtn.addEventListener('click', () => open('row', ''));
+
+    function attach() {
+      const cols = ['chip-hero','chip-chapter','chip-content','chip-event','chip-package','chip-bug'];
+      document.querySelectorAll('#tbody tr[data-date]').forEach(row => {
+        // 행 삭제 버튼 (제목 td에 추가)
+        const titleTd = row.querySelectorAll('td')[1];
+        if (titleTd) {
+          // 수정 버튼
+          const editRow = document.createElement('button');
+          editRow.className = 'edit-row-btn'; editRow.textContent = '✎ 수정';
+          editRow.addEventListener('click', e => {
+            e.stopPropagation();
+            openEditRow(row);
+          });
+          titleTd.appendChild(editRow);
+          // 삭제 버튼
+          const delRow = document.createElement('button');
+          delRow.className = 'del-row-btn'; delRow.textContent = '✕ 삭제';
+          delRow.addEventListener('click', e => {
+            e.stopPropagation();
+            if (confirm('이 행을 삭제할까요?')) { row.remove(); updateCounts(); }
+          });
+          titleTd.appendChild(delRow);
+        }
+
+        // 각 칩에 수정/삭제 버튼 추가
+        row.querySelectorAll('span.chip').forEach(chip => {
+          // 수정 버튼
+          const editChip = document.createElement('button');
+          editChip.className = 'edit-chip-btn'; editChip.textContent = '✎';
+          editChip.title = '칩 수정';
+          editChip.addEventListener('click', e => {
+            e.preventDefault();
+            e.stopPropagation();
+            openEditChip(chip, row.dataset.date);
+          });
+          chip.appendChild(editChip);
+          // 삭제 버튼
+          const delBtn = document.createElement('button');
+          delBtn.className = 'del-chip-btn'; delBtn.textContent = '✕';
+          delBtn.title = '칩 삭제';
+          delBtn.addEventListener('click', e => {
+            e.preventDefault();
+            e.stopPropagation();
+            const parent = chip.parentNode;
+            const heroLink = chip.closest('a.hero-link');
+            if (heroLink) heroLink.remove();
+            else chip.remove();
+            if (parent && parent.classList.contains('cell-items') && !parent.querySelector('span.chip')) {
+              const td = parent.parentNode;
+              parent.remove();
+              if (td) { const empty = document.createElement('span'); empty.className='empty'; empty.textContent='—'; td.appendChild(empty); }
+            }
+          });
+          chip.appendChild(delBtn);
+        });
+
+        // 각 컬럼에 + 추가 버튼
+        row.querySelectorAll('td').forEach((td, i) => {
+          if (i < 2 || i > 7) return;
+          const ab = document.createElement('button');
+          ab.className = 'chip-add-btn'; ab.textContent = '+ 추가';
+          ab.addEventListener('click', e => { e.stopPropagation(); open('chip', row.dataset.date, cols[i-2]); });
+          td.appendChild(ab);
+        });
+      });
+    }
+
+    function detach() {
+      document.querySelectorAll('.chip-add-btn, .del-chip-btn, .del-row-btn, .edit-row-btn, .edit-chip-btn').forEach(b => b.remove());
+      // 칩에서 삭제 버튼 제거 후 원래대로
+    }
+
+
+    // ── 행 수정 ──
+    let editTargetRow = null;
+    let editTargetChip = null;
+
+    function openEditRow(row) {
+      editTargetRow = row;
+      const titleLink = row.querySelector('a.title-link');
+      const dateStr = row.dataset.date || '';
+      const yr = dateStr.substring(0,4);
+      const mo = dateStr.substring(4,6);
+      const dy = dateStr.substring(6,8);
+
+      document.getElementById('em-title').textContent = '날짜 정보 수정';
+      document.getElementById('em-row').style.display = 'block';
+      document.getElementById('em-chip').style.display = 'none';
+
+      // 기존값 채우기
+      document.getElementById('em-date').value = yr + '.' + mo + '.' + dy;
+      document.getElementById('em-date').disabled = true; // 날짜 변경 불가
+      document.getElementById('em-ttl').value = titleLink ? titleLink.textContent.replace(/✎.*|✕.*/g,'').trim() : '';
+      document.getElementById('em-rlink').value = titleLink ? titleLink.href : '';
+
+      document.getElementById('em-confirm').textContent = '수정';
+      modalMode = 'edit-row';
+      eov.classList.add('open');
+      setTimeout(() => document.getElementById('em-ttl').focus(), 50);
+    }
+
+    function openEditChip(chip, date) {
+      editTargetChip = chip;
+      tDate = date;
+      const heroLink = chip.closest('a.hero-link');
+
+      document.getElementById('em-title').textContent = '칩 수정';
+      document.getElementById('em-row').style.display = 'none';
+      document.getElementById('em-chip').style.display = 'block';
+
+      // 칩 타입 추론
+      const cls = [...chip.classList].find(c => c.startsWith('chip-') && c !== 'chip');
+      emType.value = cls || 'chip-content';
+      // 텍스트: 수정/삭제 버튼 텍스트 제외
+      const textNode = [...chip.childNodes].find(n => n.nodeType === 3);
+      document.getElementById('em-text').value = textNode ? textNode.textContent.trim() : chip.textContent.replace(/[✎✕]/g,'').trim();
+      document.getElementById('em-link').value = heroLink ? heroLink.href : '';
+      toggleLink();
+
+      document.getElementById('em-confirm').textContent = '수정';
+      modalMode = 'edit-chip';
+      eov.classList.add('open');
+      setTimeout(() => document.getElementById('em-text').focus(), 50);
+    }
+
+    function applyEditRow() {
+      if (!editTargetRow) return;
+      const tt = document.getElementById('em-ttl').value.trim();
+      const lk = document.getElementById('em-rlink').value.trim();
+      if (!tt) { alert('제목을 입력해주세요.'); return; }
+      const titleLink = editTargetRow.querySelector('a.title-link');
+      if (titleLink) {
+        // 버튼 노드 보존
+        const editBtn2 = titleLink.querySelector('.edit-row-btn');
+        const delBtn2 = titleLink.querySelector('.del-row-btn');
+        titleLink.textContent = tt;
+        if (lk) titleLink.href = lk;
+        if (editBtn2) titleLink.appendChild(editBtn2);
+        if (delBtn2) titleLink.appendChild(delBtn2);
+      }
+      document.getElementById('em-date').disabled = false;
+    }
+
+    function applyEditChip() {
+      if (!editTargetChip) return;
+      const tx = document.getElementById('em-text').value.trim();
+      const lk = document.getElementById('em-link').value.trim();
+      if (!tx) { alert('내용을 입력해주세요.'); return; }
+      const heroLink = editTargetChip.closest('a.hero-link');
+
+      // 텍스트 노드만 교체 (버튼 노드 유지)
+      const textNode = [...editTargetChip.childNodes].find(n => n.nodeType === 3);
+      if (textNode) textNode.textContent = tx;
+      else editTargetChip.insertBefore(document.createTextNode(tx), editTargetChip.firstChild);
+
+      // 링크 수정
+      if (heroLink && lk) heroLink.href = lk;
+      else if (heroLink && !lk) {
+        // 링크 제거
+        heroLink.replaceWith(editTargetChip);
+      } else if (!heroLink && lk) {
+        // 링크 추가
+        const a = document.createElement('a');
+        a.href = lk; a.target = '_blank'; a.className = 'hero-link';
+        editTargetChip.parentNode.insertBefore(a, editTargetChip);
+        a.appendChild(editTargetChip);
+      }
+    }
+
+    function open(mode, date, type) {
+      modalMode = mode; tDate = date; tType = type || '';
+      eov.classList.add('open');
+      if (mode === 'row') {
+        document.getElementById('em-title').textContent = '새 날짜 추가';
+        document.getElementById('em-row').style.display = 'block';
+        document.getElementById('em-chip').style.display = 'none';
+        ['em-date','em-ttl','em-rlink'].forEach(id => document.getElementById(id).value = '');
+        setTimeout(() => document.getElementById('em-date').focus(), 50);
+      } else {
+        document.getElementById('em-title').textContent = '칩 추가';
+        document.getElementById('em-row').style.display = 'none';
+        document.getElementById('em-chip').style.display = 'block';
+        emType.value = type || 'chip-content';
+        document.getElementById('em-text').value = '';
+        document.getElementById('em-link').value = '';
+        toggleLink();
+        setTimeout(() => document.getElementById('em-text').focus(), 50);
+      }
+    }
+
+    function close() { eov.classList.remove('open'); document.getElementById('em-confirm').textContent = '추가'; document.getElementById('em-date').disabled = false; }
+    function toggleLink() { emLinkWrap.classList.toggle('show', emType.value === 'chip-hero'); }
+    emType.addEventListener('change', toggleLink);
+    const emCancel = document.getElementById('em-cancel'); if (emCancel) emCancel.addEventListener('click', close);
+    eov.addEventListener('click', e => { if (e.target === eov) close(); });
+
+    const emConfirm = document.getElementById('em-confirm'); if (emConfirm) emConfirm.addEventListener('click', () => {
+      if (modalMode === 'row') addRow();
+      else if (modalMode === 'chip') addChip();
+      else if (modalMode === 'edit-row') applyEditRow();
+      else if (modalMode === 'edit-chip') applyEditChip();
+      close();
+      document.getElementById('em-confirm').textContent = '추가';
+      document.getElementById('em-date').disabled = false;
+      dlBtn.classList.add('visible');
+    });
+
+    function addRow() {
+      const dr = document.getElementById('em-date').value.trim();
+      const tt = document.getElementById('em-ttl').value.trim();
+      const lk = document.getElementById('em-rlink').value.trim();
+      if (!dr || !tt) { alert('날짜와 제목을 입력해주세요.'); return; }
+      const dk = dr.replace(/\./g, '');
+      if (!/^\d{8}$/.test(dk)) { alert('날짜 형식 확인 (예: 2026.04.23)'); return; }
+      if (document.querySelector('tr[data-date="'+dk+'"]')) { alert('이미 해당 날짜 행이 있습니다.'); return; }
+      const yr = dk.substring(0,4);
+      const disp = dr.replace(/^\d{4}\./, '');
+      const tbody = document.getElementById('tbody');
+      const tr = document.createElement('tr');
+      tr.dataset.date = dk; tr.dataset.year = yr; tr.dataset.has = '';
+      tr.innerHTML =
+        '<td class="td-date"><span class="month">'+yr+'</span>'+disp+'</td>'+
+        '<td class="td-title"><a class="title-link" href="'+(lk||'#')+'" target="_blank">'+tt+'</a></td>'+
+        '<td><span class="empty">—</span></td>'.repeat(6);
+      let ins = false;
+      for (const row of Array.from(tbody.querySelectorAll('tr[data-year="'+yr+'"]'))) {
+        if (parseInt(row.dataset.date) < parseInt(dk)) { tbody.insertBefore(tr, row); ins = true; break; }
+      }
+      if (!ins) {
+        const hdr = tbody.querySelector('tr[data-year-header="'+yr+'"]') || tbody.querySelector('tr.year-group[data-year="'+yr+'"]');
+        if (hdr) hdr.after(tr); else tbody.prepend(tr);
+      }
+      detach(); attach(); updateCounts();
+      tr.scrollIntoView({behavior:'smooth',block:'center'});
+      tr.style.outline = '2px solid #4db8ff';
+      setTimeout(() => tr.style.outline = '', 1500);
+    }
+
+    function addChip() {
+      const ct = emType.value;
+      const tx = document.getElementById('em-text').value.trim();
+      const lk = document.getElementById('em-link').value.trim();
+      if (!tx) { alert('내용을 입력해주세요.'); return; }
+      const row = document.querySelector('tr[data-date="'+tDate+'"]');
+      if (!row) return;
+      const tds = row.querySelectorAll('td');
+      const cm = {'chip-hero':2,'chip-chapter':3,'chip-content':4,'chip-event':5,'chip-package':6,'chip-bug':7};
+      const td = tds[cm[ct]];
+      if (!td) return;
+      td.querySelectorAll('span.empty').forEach(s => s.remove());
+      let div = td.querySelector('div.cell-items');
+      if (!div) { div = document.createElement('div'); div.className = 'cell-items'; td.prepend(div); }
+      const ab = div.querySelector('.chip-add-btn');
+      const chip = document.createElement('span');
+      chip.className = 'chip ' + ct; chip.textContent = tx;
+      if (ct === 'chip-hero') {
+        chip.dataset.tip = '클릭: 포럼 이동 | 길게: 필터';
+        if (lk) {
+          const a = document.createElement('a'); a.href = lk; a.target = '_blank'; a.className = 'hero-link';
+          a.appendChild(chip); div.insertBefore(a, ab||null);
+        } else { div.insertBefore(chip, ab||null); }
+      } else { div.insertBefore(chip, ab||null); }
+      const has = row.dataset.has || '';
+      const tk = ct.replace('chip-','');
+      if (!has.includes(tk)) row.dataset.has = (has+' '+tk).trim();
+    }
+
+    if (dlBtn) dlBtn.addEventListener('click', () => {
+      if (editMode) detach();
+      document.getElementById('tbody').classList.remove('edit-mode');
+      // 저장 전 today-badge 제거 (다시 열면 JS가 새로 붙임)
+      document.querySelectorAll('.today-badge').forEach(el => {
+        const br = el.previousSibling;
+        if (br && br.nodeName === 'BR') br.remove();
+        el.remove();
+      });
+      document.querySelectorAll('tr.today-row').forEach(r => r.classList.remove('today-row'));
+      // chip-add-btn도 제거
+      document.querySelectorAll('.chip-add-btn, .del-chip-btn, .del-row-btn, .edit-row-btn, .edit-chip-btn').forEach(b => b.remove());
+
+      const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+      const blob = new Blob([html], {type:'text/html;charset=utf-8'});
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+      a.download = 'index.html'; a.click(); URL.revokeObjectURL(a.href);
+      if (editMode) { document.getElementById('tbody').classList.add('edit-mode'); attach(); }
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && eov.classList.contains('open')) close();
+    });
+
+  })();
 </script>
 <!-- 사이드 패널 -->
-<div class="side-overlay" id="side-overlay"></div>
-<div class="side-panel" id="side-panel">
-<div class="side-panel-header">
-<div class="side-panel-title">
-<span class="sp-tag">Hero Guide</span>
-<span id="sp-title"></span>
-</div>
-<button class="side-panel-close" id="side-panel-close">✕</button>
-</div>
-<div class="side-panel-body">
-<div class="sp-info-row">
-<span class="sp-label">업데이트 날짜</span>
-<span class="sp-value" id="sp-date"></span>
-</div>
-<hr class="sp-divider"/>
-<div class="sp-info-row">
-<span class="sp-label">포럼 링크</span>
-<span class="sp-value" id="sp-url"></span>
-</div>
-<a class="sp-open-btn" href="#" id="sp-open-btn" target="_blank">↗ 포럼에서 영웅 안내 보기</a>
-</div>
-</div>
+
+
 </div></body>
 </html>
