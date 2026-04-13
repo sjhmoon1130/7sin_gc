@@ -1,0 +1,17 @@
+# 보안 - 절대 git에 올리면 안 되는 파일
+.env
+credentials.json
+token.json
+
+# 임시 작업 공간 - 언제든 삭제 가능
+.tmp/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# macOS
+.DS_Store
