@@ -1,17 +1,15 @@
 <!DOCTYPE html>
-
-<html lang="ko">
-<head>
-<meta charset="utf-8"/>
-<link href="https://sjhmoon1130.github.io/7sin_gc/favicon.png" rel="icon" type="image/png"/>
-<meta content="칠대죄 그랜드 크로스 업데이트" property="og:title"/>
-<meta content="업데이트 내역 확인 및 관리용 대시 보드" property="og:description"/>
-<meta content="https://sjhmoon1130.github.io/7sin_gc/thumbnail.png" property="og:image"/>
-<meta content="https://sjhmoon1130.github.io/7sin_gc/" property="og:url"/>
-<meta content="website" property="og:type"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<html lang="ko" class="light"><head>
+<meta charset="utf-8">
+<link href="https://sjhmoon1130.github.io/7sin_gc/favicon.png" rel="icon" type="image/png">
+<meta content="칠대죄 그랜드 크로스 업데이트" property="og:title">
+<meta content="업데이트 내역 확인 및 관리용 대시 보드" property="og:description">
+<meta content="https://sjhmoon1130.github.io/7sin_gc/thumbnail.png" property="og:image">
+<meta content="https://sjhmoon1130.github.io/7sin_gc/" property="og:url">
+<meta content="website" property="og:type">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>7대죄 그랜드크로스 — 업데이트 내역</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
 <style>
   :root.light {
     --bg: #f5f4f0;
@@ -525,11 +523,16 @@
   }
   .edit-chip-btn:hover { background:rgba(77,184,255,.15); border-color:#4db8ff; color:#4db8ff; }
 </style>
-</head>
+<style>
+  .imageye-selected {
+    outline: 2px solid black !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5) !important;
+  }
+</style></head>
 <body>
 <div class="page-header" id="page-header">
 <div class="page-title">일곱 개의 대죄 : GRAND CROSS</div>
-<div class="page-subtitle">업데이트 내역 <span class="count-badge" id="row-count">15건</span></div>
+<div class="page-subtitle">업데이트 내역 <span class="count-badge" id="row-count">357건</span></div>
 <div class="controls">
 <span class="filter-label">필터</span>
 <button class="filter-btn active" data-filter="all">전체</button>
@@ -537,25 +540,25 @@
 <button class="filter-btn" data-filter="chapter">챕터</button>
 <button class="filter-btn" data-filter="collab">콜라보</button>
 <button class="sort-btn" id="sort-btn">날짜 ↓ 최신순</button>
-<button class="edit-btn" id="edit-btn">✏️ 편집</button><button class="download-btn" id="download-btn">⬇️ 저장</button><button class="theme-btn" id="theme-btn">☀️ 라이트</button>
+<button class="edit-btn" id="edit-btn">✏️ 편집</button><button class="download-btn visible" id="download-btn">⬇️ 저장</button><button class="theme-btn" id="theme-btn">☀️ 라이트</button>
 <div class="search-wrap">
 <span class="filter-label">검색<span class="shortcut-hint">Ctrl+F</span></span>
-<input autocomplete="off" class="search-input" id="search-input" placeholder="영웅명, 업데이트 내용 검색..." type="text"/>
+<input autocomplete="off" class="search-input" id="search-input" placeholder="영웅명, 업데이트 내용 검색..." type="text">
 <button class="search-clear" id="search-clear">✕ 지우기</button>
 <span class="search-result-label" id="search-result-label"></span>
-<div class="search-hint" id="search-hint">영웅명·날짜·내용 검색  |  영웅 칩 <span>길게 클릭</span> → 필터  |  <span>ESC</span> 초기화</div>
+<div class="search-hint" id="search-hint">영웅명·날짜·내용 검색 &nbsp;|&nbsp; 영웅 칩 <span>길게 클릭</span> → 필터 &nbsp;|&nbsp; <span>ESC</span> 초기화</div>
 </div>
-<div class="hero-filter-wrap" id="hero-filter-wrap">
+<div class="hero-filter-wrap visible" id="hero-filter-wrap">
 <span class="hero-filter-label">영웅 필터</span>
 <span id="hero-filter-tags"></span>
 </div></div>
 </div>
-<div class="table-scroll-wrap"><div class="table-wrap">
-<table>
+<div class="table-scroll-wrap can-scroll-right"><div class="table-wrap" style="padding-top: 155px;">
+<div id="no-result-msg">🔍 검색 결과가 없습니다.</div><table>
 <colgroup>
-<col class="c-date"/><col class="c-title"/>
-<col class="c-hero"/>
-<col class="c-chapter"/><col class="c-content"/><col class="c-event"/><col class="c-package"/><col class="c-bug"/>
+<col class="c-date"><col class="c-title">
+<col class="c-hero">
+<col class="c-chapter"><col class="c-content"><col class="c-event"><col class="c-package"><col class="c-bug">
 </colgroup>
 <thead>
 <tr id="thead-row">
@@ -568,14 +571,14 @@
 <th class="th-bug">버그수정 · 시스템</th>
 </tr>
 </thead>
-<tbody id="tbody">
+<tbody id="tbody" class="">
 <tr class="year-group" data-year-header="2026">
-<td colspan="8"><button class="year-group-btn" onclick="toggleYear('2026')"><span class="yr-label">2026년</span><span class="year-count" id="count-2026">0건</span></button></td>
+<td colspan="8"><button class="year-group-btn" onclick="toggleYear('2026')"><span class="yr-label">2026년</span><span class="year-count" id="count-2026">17건</span></button></td>
 </tr><tr class="add-row-tr">
 <td colspan="8" style="padding:4px 12px; border-bottom:1px dashed var(--border2);">
 <button class="add-row-tr-btn" id="add-row-tr-btn">＋ 새 업데이트 날짜 추가</button>
 </td>
-</tr><tr class="" data-date="20260409" data-has="hero content event package bug" data-year="2026"><td class="td-date"><span class="month">2026</span>04.09</td><td class="td-title"><a class="title-link" href="https://forum.netmarble.com/7ds/view/34/654948" target="_blank">4월 9일 업데이트</a></td><td><div class="cell-items"><a class="hero-link" href="https://forum.netmarble.com/7ds/view/139/654946" target="_blank"><span class="chip chip-hero" data-tip="클릭: 포럼 이동 | 길게: 필터">【쾌활한 동급생】 격투가 다이앤</span></a></div></td><td><span class="empty">—</span></td><td><div class="cell-items"><span class="chip chip-content">신규 성물 추가</span><span class="chip chip-content">기사단 보스전 시즌2 마수 켈라크 토벌 (4/12~5/9)</span><span class="chip chip-content">순찰대 특별 임무 추가 (4/9~4/23)</span><span class="chip chip-content">다이아 1개+1개 보너스 상품 판매 종료</span></div></td><td><div class="cell-items"><span class="chip chip-event">그랜드 시즌 스페셜 미션 2부 (4/9~4/23)</span><span class="chip chip-event">오슬로&amp;호크의 신나는 피크닉 (4/9~4/23)</span><span class="chip chip-event">이벤트 토벌전 푸링푸 리턴즈 / 교환소 (4/9~4/23)</span><span class="chip chip-event">7주년 사전등록 이벤트 (4/9~5/21)</span><span class="chip chip-event">전투 이벤트 : 영혼을 위한 영웅담 (4/9~4/15)</span></div></td><td><div class="cell-items"><span class="chip chip-package">그랜드 시즌 봄~ 2부 패키지 3종 추가 (4/9~4/23)</span><span class="chip chip-package">그랜드 시즌 기념 패키지 2종 구매 횟수 초기화 (4/9~4/23)</span><span class="chip chip-package">다이아 티켓 보너스 상품 (4/9~4/23)</span></div></td><td><div class="cell-items"><span class="chip chip-bug">친선전 선공 포기 시 게임 멈춤 수정</span><span class="chip chip-bug">묵시록 4기사 챕터1 25화 대사 오류 수정</span><span class="chip chip-bug">금빛 날개 엘레인 출혈 효과 아군 적용 수정</span><span class="chip chip-bug">연 이화 타오르는 방패 미해제 수정</span></div></td></tr>
+</tr><tr data-date="20260423" data-year="2026" data-has="hero package event content bug" style=""><td class="td-date"><span class="month">2026</span>04.23</td><td class="td-title"><a class="title-link" href="https://forum.netmarble.com/7ds/view/34/655390" target="_blank">4월 23일 업데이트</a></td><td><div class="cell-items"><a href="https://forum.netmarble.com/7ds/view/139/655388" target="_blank" class="hero-link"><span class="chip chip-hero" data-tip="클릭: 포럼 이동 | 길게: 필터">【Re:제로】 스바루＆베아트리스</span></a><a href="https://forum.netmarble.com/7ds/view/139/655388" target="_blank" class="hero-link"><span class="chip chip-hero" data-tip="클릭: 포럼 이동 | 길게: 필터">【Re:제로】 빙결의 마녀 에밀리아</span></a><a href="https://forum.netmarble.com/7ds/view/139/655388" target="_blank" class="hero-link"><span class="chip chip-hero" data-tip="클릭: 포럼 이동 | 길게: 필터">【Re:제로】 태양희 프리실라</span></a><a href="https://forum.netmarble.com/7ds/view/34/655390" target="_blank" class="hero-link"><span class="chip chip-hero" data-tip="클릭: 포럼 이동 | 길게: 필터">LR 진화 개방 : 【Re:제로】 스바루＆베아트리스, 【Re:제로】 검성 라인하르트</span></a></div></td><td><span class="empty">—</span></td><td><div class="cell-items"><span class="chip chip-content">&lt;선별전&gt; 시즌 6</span></div></td><td><div class="cell-items"><span class="chip chip-event">『7대죄』 X 『Re:제로』  ~Re : 제로부터 시작하는 브리타니아 생활</span><span class="chip chip-event">『7대죄』 X 『Re:제로』  빙고 이벤트</span><span class="chip chip-event">『7대죄』 X 『Re:제로』  스페셜 증식하는 공포! 『3대 마수』 대토</span><span class="chip chip-event">『7대죄』 X 『Re:제로』 다이아 페이백 이벤트</span><span class="chip chip-event">『7대죄』 X 『Re:제로』 성물 재료 무료 지급 이벤트</span></div></td><td><div class="cell-items"><span class="chip chip-package">『7대죄』 X 『Re:제로』 콜라보 기념 패키지 31종 추가</span></div></td><td><div class="cell-items"><span class="chip chip-bug">[영웅의 서] 미션 클리어 방식 개선</span><span class="chip chip-bug">행동력 사용 방식 개선</span><span class="chip chip-bug">[영웅] 화면 가시성 개선</span><span class="chip chip-bug">솔가레스 요새 속성 던전 개편</span><span class="chip chip-bug">일일 임무 수행 방식 마일리지로 변경</span><span class="chip chip-bug">PvP 승급전 규칙 개선</span><span class="chip chip-bug">전투 속도 개선</span></div></td></tr><tr data-date="20260416" data-year="2026" data-has="content bug" style=""><td class="td-date"><span class="month">2026</span>04.16</td><td class="td-title"><a class="title-link" href="https://forum.netmarble.com/7ds/view/34/655190" target="_blank">4월 16일 업데이트</a></td><td><span class="empty">—</span></td><td><span class="empty">—</span></td><td><div class="cell-items"><span class="chip chip-content">&lt;히어로 아레나&gt; 시즌 19</span><span class="chip chip-content">&lt;기부하는 당신이 아름답다!&gt; 개최</span><span class="chip chip-content">&lt;끝내주는 술을 찾아서&gt; 개최</span></div></td><td><span class="empty">—</span></td><td><span class="empty">—</span></td><td><div class="cell-items"><span class="chip chip-bug">‘스킬 검색’에서 조건과 일치하지 않는 영웅이 표시되는 현상</span></div></td></tr><tr class="" data-date="20260409" data-has="hero content event package bug" data-year="2026"><td class="td-date"><span class="month">2026</span>04.09</td><td class="td-title"><a class="title-link" href="https://forum.netmarble.com/7ds/view/34/654948" target="_blank">4월 9일 업데이트</a></td><td><div class="cell-items"><a class="hero-link" href="https://forum.netmarble.com/7ds/view/139/654946" target="_blank"><span class="chip chip-hero" data-tip="클릭: 포럼 이동 | 길게: 필터">【쾌활한 동급생】 격투가 다이앤</span></a></div></td><td><span class="empty">—</span></td><td><div class="cell-items"><span class="chip chip-content">신규 성물 추가</span><span class="chip chip-content">기사단 보스전 시즌2 마수 켈라크 토벌 (4/12~5/9)</span><span class="chip chip-content">순찰대 특별 임무 추가 (4/9~4/23)</span><span class="chip chip-content">다이아 1개+1개 보너스 상품 판매 종료</span></div></td><td><div class="cell-items"><span class="chip chip-event">그랜드 시즌 스페셜 미션 2부 (4/9~4/23)</span><span class="chip chip-event">오슬로&amp;호크의 신나는 피크닉 (4/9~4/23)</span><span class="chip chip-event">이벤트 토벌전 푸링푸 리턴즈 / 교환소 (4/9~4/23)</span><span class="chip chip-event">7주년 사전등록 이벤트 (4/9~5/21)</span><span class="chip chip-event">전투 이벤트 : 영혼을 위한 영웅담 (4/9~4/15)</span></div></td><td><div class="cell-items"><span class="chip chip-package">그랜드 시즌 봄~ 2부 패키지 3종 추가 (4/9~4/23)</span><span class="chip chip-package">그랜드 시즌 기념 패키지 2종 구매 횟수 초기화 (4/9~4/23)</span><span class="chip chip-package">다이아 티켓 보너스 상품 (4/9~4/23)</span></div></td><td><div class="cell-items"><span class="chip chip-bug">친선전 선공 포기 시 게임 멈춤 수정</span><span class="chip chip-bug">묵시록 4기사 챕터1 25화 대사 오류 수정</span><span class="chip chip-bug">금빛 날개 엘레인 출혈 효과 아군 적용 수정</span><span class="chip chip-bug">연 이화 타오르는 방패 미해제 수정</span></div></td></tr>
 <tr class="" data-date="20260402" data-has="content event package bug" data-year="2026">
 <td class="td-date"><span class="month">2026</span>04.02</td>
 <td class="td-title"><a class="title-link" href="https://forum.netmarble.com/7ds/view/34/654600" target="_blank">4월 2일 업데이트</a></td>
@@ -861,7 +864,7 @@
 </div></td>
 </tr>
 <tr class="year-group" data-year-header="2025">
-<td colspan="8"><button class="year-group-btn" onclick="toggleYear('2025')"><span class="yr-label">2025년</span><span class="year-count" id="count-2025">0건</span></button></td>
+<td colspan="8"><button class="year-group-btn" onclick="toggleYear('2025')"><span class="yr-label">2025년</span><span class="year-count" id="count-2025">51건</span></button></td>
 </tr>
 <tr class="big-update" data-date="20251226" data-has="hero content event package" data-year="2025">
 <td class="td-date"><span class="month">2025</span>12.26</td>
@@ -1374,7 +1377,7 @@
 <td><div class="cell-items"><a class="hero-link" href="https://forum.netmarble.com/7ds/view/139/642656" target="_blank"><span class="chip chip-hero" data-tip="클릭: 포럼 이동 | 길게: 필터">【성기사 지망생】 왕자 트리스탄</span></a></div></td>
 <td><span class="empty">—</span></td><td><span class="empty">—</span></td>
 <td><div class="cell-items"><span class="chip chip-event">&lt;영혼을 위한 영웅담&gt; 개최</span></div></td>
-<td><div class="cell-items"><span class="chip chip-package">신규  패키지 12종 추가</span></div></td>
+<td><div class="cell-items"><span class="chip chip-package">신규 &nbsp;패키지 12종 추가</span></div></td>
 <td><span class="empty">—</span></td>
 </tr>
 <tr data-date="20250430" data-has="event package bug" data-year="2025">
@@ -1521,7 +1524,7 @@
 <td><div class="cell-items"><span class="chip chip-bug">성기사장 드레퓌스 코스튬 아이콘 오류 수정</span></div></td>
 </tr>
 <tr class="year-group" data-year-header="2024">
-<td colspan="8"><button class="year-group-btn" onclick="toggleYear('2024')"><span class="yr-label">2024년</span><span class="year-count" id="count-2024">0건</span></button></td>
+<td colspan="8"><button class="year-group-btn" onclick="toggleYear('2024')"><span class="yr-label">2024년</span><span class="year-count" id="count-2024">52건</span></button></td>
 </tr>
 <tr class="big-update" data-date="20241226" data-has="content event package hero" data-year="2024">
 <td class="td-date"><span class="month">2024</span>12.26</td>
@@ -1645,7 +1648,7 @@
 <td><div class="cell-items"><span class="chip chip-chapter">묵시록 1챕터</span></div></td><td><span class="empty">—</span></td>
 <td><div class="cell-items"><span class="chip chip-event">&lt;리오네스 성기사 특별 훈련&gt; 개최</span></div></td>
 <td><div class="cell-items"><span class="chip chip-package">묵시록: The beginning 기념 패키지 11종 추가</span></div></td>
-<td><div class="cell-items"><span class="chip chip-bug">‘【염옥의 조물주】 데미우르고스’가 무기 코스튬 ‘재앙의 장갑’을 착용했을 때, 승리 연출이 정상적으로 표시되지 않는 현상</span><span class="chip chip-bug">‘【무너진 균형】 혼돈 아서’가 ★2 이상의 ‘위키드 바이트’ 사용 시, 입 모양이 정상적으로 표시되지 않는 현상</span><span class="chip chip-bug">‘전체 공격 스킬 사용 불가’ 디버프가 부여된 ‘【설원의 마녀】 진리의 탐구자 멀린’이 스킬 랭크업 후에도, ★2 이상의 ‘호러블 블레이드’의 사용이 불가능한 것</span><span class="chip chip-bug">‘【그람의 주인】 왕태자 시구르드’의 개성 효과로 인한 공격력 증가가, ‘【길드의 기대주】 플레이어 신’과 함께 편성한 전투에서는 적용되지 않는 현상</span><span class="chip chip-bug">‘변신’ 효과를 가진 영웅을 2명 이상 편성하였을 때, 영웅 화면에서 정보가 겹쳐서 표시되는 현상</span><span class="chip chip-bug">‘변신’ 효과를 가진 영웅이 변신에서 해제될 때, 연출이 정상적으로 표시되지 않는 현상</span></div></td>
+<td><div class="cell-items"><span class="chip chip-bug">‘【염옥의 조물주】 데미우르고스’가 무기 코스튬 ‘재앙의 장갑’을 착용했을 때, 승리 연출이 정상적으로 표시되지 않는 현상</span><span class="chip chip-bug">‘【무너진 균형】 혼돈 아서’가 ★2 이상의 ‘위키드 바이트’ 사용 시, 입 모양이 정상적으로 표시되지 않는 현상</span><span class="chip chip-bug">‘전체 공격 스킬 사용 불가’ 디버프가 부여된 ‘【설원의 마녀】 진리의 탐구자 멀린’이 스킬 랭크업 후에도, ★2 이상의 ‘호러블 블레이드’의 사용이 불가능한 것</span><span class="chip chip-bug">‘【그람의 주인】 왕태자 시구르드’의 개성 효과로 인한 공격력 증가가, ‘【길드의 기대주】 플레이어 신’과&nbsp;함께 편성한 전투에서는 적용되지 않는 현상</span><span class="chip chip-bug">‘변신’ 효과를 가진 영웅을 2명 이상 편성하였을 때, 영웅 화면에서 정보가 겹쳐서 표시되는 현상</span><span class="chip chip-bug">‘변신’ 효과를 가진 영웅이&nbsp;변신에서 해제될 때, 연출이 정상적으로 표시되지 않는 현상</span></div></td>
 </tr>
 <tr data-date="20240919" data-has="content event package" data-year="2024">
 <td class="td-date"><span class="month">2024</span>09.19</td>
@@ -1983,7 +1986,7 @@
 <td><span class="empty">—</span></td>
 </tr>
 <tr class="year-group" data-year-header="2023">
-<td colspan="8"><button class="year-group-btn" onclick="toggleYear('2023')"><span class="yr-label">2023년</span><span class="year-count" id="count-2023">0건</span></button></td>
+<td colspan="8"><button class="year-group-btn" onclick="toggleYear('2023')"><span class="yr-label">2023년</span><span class="year-count" id="count-2023">52건</span></button></td>
 </tr>
 <tr class="big-update" data-date="20231228" data-has="content event package bug hero chapter" data-year="2023">
 <td class="td-date"><span class="month">2023</span>12.28</td>
@@ -2447,7 +2450,7 @@
 <td><div class="cell-items"><span class="chip chip-bug">New Year 뽑기 멜리오다스 보이스 오류 수정</span><span class="chip chip-bug">찬드라 코스튬 노출 오류 수정</span></div></td>
 </tr>
 <tr class="year-group" data-year-header="2022">
-<td colspan="8"><button class="year-group-btn" onclick="toggleYear('2022')"><span class="yr-label">2022년</span><span class="year-count" id="count-2022">0건</span></button></td>
+<td colspan="8"><button class="year-group-btn" onclick="toggleYear('2022')"><span class="yr-label">2022년</span><span class="year-count" id="count-2022">52건</span></button></td>
 </tr>
 <tr data-date="20221229" data-has="bug event hero package chapter" data-year="2022">
 <td class="td-date"><span class="month">2022</span>12.29</td>
@@ -2645,7 +2648,7 @@
 <td class="td-title"><a class="title-link" href="https://forum.netmarble.com/7ds/view/139/577804" target="_blank">7월 28일 업데이트</a></td>
 <td><div class="cell-items"><a class="hero-link" href="https://forum.netmarble.com/7ds/view/139/577804" target="_blank"><span class="chip chip-hero" data-tip="클릭: 포럼 이동 | 길게: 필터">【일그러진 어둠】 폭주 에스타롯사</span></a></div></td>
 <td><div class="cell-items"><span class="chip chip-chapter">메인 24챕터</span></div></td><td><span class="empty">—</span></td>
-<td><div class="cell-items"><span class="chip chip-event">코인 상점 -  페스티벌 영웅 추가</span><span class="chip chip-event">전투 이벤트 2종 개최</span><span class="chip chip-event">1) &lt;길라의 휴일&gt; 개최</span><span class="chip chip-event">&lt;뱀을 재우는 자&gt; 개최</span></div></td>
+<td><div class="cell-items"><span class="chip chip-event">코인 상점 - &nbsp;페스티벌 영웅 추가</span><span class="chip chip-event">전투 이벤트 2종 개최</span><span class="chip chip-event">1) &lt;길라의 휴일&gt; 개최</span><span class="chip chip-event">&lt;뱀을 재우는 자&gt; 개최</span></div></td>
 <td><div class="cell-items"><span class="chip chip-package">글로벌 2.5주년 기념 패키지 8종 추가</span><span class="chip chip-package">상시 패키지 1종 추가</span></div></td>
 <td><div class="cell-items"><span class="chip chip-bug">PC 베타 버전에서 장비 분해 기능 이용 시, “일괄 등록” 버튼이 강조되어 표시되는 현상 수정</span><span class="chip chip-bug">&lt;영웅의 길&gt;에서 팀 투급 달성 관련 미션이 소탕권을 사용해도 클리어되는 현상 수정</span><span class="chip chip-bug">[기사단 보스전] 마수 에이네크 HELL - 기본 능력 증가 제한 횟수가 잘못 기재되어 있는 현상 수정</span></div></td>
 </tr>
@@ -2907,7 +2910,7 @@
 <td><span class="empty">—</span></td>
 </tr>
 <tr class="year-group" data-year-header="2021">
-<td colspan="8"><button class="year-group-btn" onclick="toggleYear('2021')"><span class="yr-label">2021년</span><span class="year-count" id="count-2021">0건</span></button></td>
+<td colspan="8"><button class="year-group-btn" onclick="toggleYear('2021')"><span class="yr-label">2021년</span><span class="year-count" id="count-2021">52건</span></button></td>
 </tr>
 <tr class="big-update" data-date="20211230" data-has="hero content event chapter" data-year="2021">
 <td class="td-date"><span class="month">2021</span>12.30</td>
@@ -2942,7 +2945,7 @@
 <td><span class="empty">—</span></td><td><span class="empty">—</span></td>
 <td><div class="cell-items"><span class="chip chip-event">전투 이벤트 &lt;바트라의 시험Ⅱ&gt; 개최</span></div></td>
 <td><div class="cell-items"><span class="chip chip-package">2.5주년 스페셜 픽업 티켓 패키지 4종 추가</span></div></td>
-<td><div class="cell-items"><span class="chip chip-bug">&lt;불길한 송곳니&gt; 성기사 프리지어 '나쁜 마녀의 모자' 뷰티 코스튬 착용 시에만 승리 모션의 표정이 다른 현상 수정</span><span class="chip chip-bug">모험가 / 신왕 아서의 성물인 '료스알프의 광검' 으로 부여되는 방어 관련 능력 감소 디버프 효과가 &lt;사대천사&gt;「섬광」의 류드시엘의 개성 효과와 중첩되지 않는 현</span></div></td>
+<td><div class="cell-items"><span class="chip chip-bug">&lt;불길한 송곳니&gt; 성기사 프리지어 '나쁜 마녀의 모자' 뷰티 코스튬 착용 시에만 승리 모션의 표정이 다른 현상 수정</span><span class="chip chip-bug">모험가&nbsp;/ 신왕 아서의 성물인 '료스알프의 광검' 으로 부여되는 방어 관련 능력 감소 디버프 효과가 &lt;사대천사&gt;「섬광」의 류드시엘의 개성 효과와 중첩되지 않는 현</span></div></td>
 </tr>
 <tr data-date="20211202" data-has="content event" data-year="2021">
 <td class="td-date"><span class="month">2021</span>12.02</td>
@@ -2957,7 +2960,7 @@
 <td class="td-title"><a class="title-link" href="https://forum.netmarble.com/7ds/view/6/551958" target="_blank">11월 25일 업데이트</a></td>
 <td><div class="cell-items"><a class="hero-link" href="https://forum.netmarble.com/7ds/view/139/551956" target="_blank"><span class="chip chip-hero" data-tip="클릭: 포럼 이동 | 길게: 필터">【수호하는 왕】 요정왕 할리퀸</span></a></div></td>
 <td><div class="cell-items"><span class="chip chip-chapter">메인 21챕터</span></div></td><td><span class="empty">—</span></td>
-<td><div class="cell-items"><span class="chip chip-event">코인상점 -  페스티벌 영웅 추가</span><span class="chip chip-event">전투 이벤트 &lt;호크 오디세이&gt; 개최</span><span class="chip chip-event">상시 뽑기 영웅 추가</span></div></td>
+<td><div class="cell-items"><span class="chip chip-event">코인상점 - &nbsp;페스티벌 영웅 추가</span><span class="chip chip-event">전투 이벤트 &lt;호크 오디세이&gt; 개최</span><span class="chip chip-event">상시 뽑기 영웅 추가</span></div></td>
 <td><span class="empty">—</span></td>
 <td><div class="cell-items"><span class="chip chip-bug">특정 영웅을 팀에 배치한 상태로 전투 진행 시, 싱크가 맞지 않아 게임이 멈추거나 강제 종료되는 현상</span><span class="chip chip-bug">챕터 20 "&lt;제416화&gt; 금의환향" 스토리에서 리오네스 성 응접실로 들어가는 퀘스트가 진행이 되지 않는 현상</span><span class="chip chip-bug">기사단 보스전 헬 베르기우스의 "어둠을 베는 검" / "빛을 베는 검"이 가지고 있는 "인내율 증가" 패시브 설명의 수치가 25%로 잘못 노출되고 있는 현상</span></div></td>
 </tr>
@@ -3249,7 +3252,7 @@
 <td class="td-title"><a class="title-link" href="https://forum.netmarble.com/7ds/view/6/515586" target="_blank">4월 8일 업데이트</a></td>
 <td><span class="empty">—</span></td>
 <td><span class="empty">—</span></td><td><div class="cell-items"><span class="chip chip-content">바이젤 싸움축제(정예전) &lt;시즌7&gt; 개최</span></div></td>
-<td><div class="cell-items"><span class="chip chip-event">바이젤 싸움축제(정예전) &lt;시즌7&gt; 개최</span><span class="chip chip-event">[바이젤 싸움축제(정예전) &lt;시즌7&gt; 개최]</span><span class="chip chip-event">전투 이벤트  개최</span></div></td>
+<td><div class="cell-items"><span class="chip chip-event">바이젤 싸움축제(정예전) &lt;시즌7&gt; 개최</span><span class="chip chip-event">[바이젤 싸움축제(정예전) &lt;시즌7&gt; 개최]</span><span class="chip chip-event">전투 이벤트&nbsp; 개최</span></div></td>
 <td><span class="empty">—</span></td>
 <td><div class="cell-items"><span class="chip chip-bug">솔가레스 요새 영원의 시계탑 던전 1층 보스 몬스터의 개성 설명이 잘못 기재된 현상 수정</span><span class="chip chip-bug">&lt;어스름의 포효&gt; 성기사 사이먼의 인연 중 【에일 콜렉터】 모험가 반을 선택할 수 없었던 현상 수정</span><span class="chip chip-bug">월드 맵 아이템 획득 정보로 솔가레스 요새에서 붉은 마신의 뿔이 노출되는 현상 수정</span></div></td>
 </tr>
@@ -3356,7 +3359,7 @@
 <td class="td-title"><a class="title-link" href="https://forum.netmarble.com/7ds/view/6/477308" target="_blank">1월 14일 업데이트</a></td>
 <td><div class="cell-items"><a class="hero-link" href="https://forum.netmarble.com/7ds/view/139/477283" target="_blank"><span class="chip chip-hero" data-tip="클릭: 포럼 이동 | 길게: 필터">【쾌속발도】 이국의 검사 무명</span></a></div></td>
 <td><span class="empty">—</span></td><td><span class="empty">—</span></td>
-<td><div class="cell-items"><span class="chip chip-event">신규 픽업 뽑기 추가</span><span class="chip chip-event">바이젤 싸움축제(정규전) 전용 규칙, 순위 보상 추가</span><span class="chip chip-event">전투 이벤트  &lt;호크 오디세이&gt; 추가</span></div></td>
+<td><div class="cell-items"><span class="chip chip-event">신규 픽업 뽑기 추가</span><span class="chip chip-event">바이젤 싸움축제(정규전) 전용 규칙, 순위 보상 추가</span><span class="chip chip-event">전투 이벤트 &nbsp;&lt;호크 오디세이&gt; 추가</span></div></td>
 <td><span class="empty">—</span></td>
 <td><div class="cell-items"><span class="chip chip-bug">일부 특정 상황에서 폭주 멜리오다스, 「진실」의 갈란, 미카사 아커만의 필살기 사용 시 효과가 일시적으로 중첩되는 현상 수정</span><span class="chip chip-bug">플레이어 랭크 80을 달성한 후 기사단 보스전 클리어 시 결과 화면에서 경험치 획득 내용이 비정상적으로 노출되는 현상 수정</span></div></td>
 </tr>
@@ -3368,7 +3371,7 @@
 <td><span class="empty">—</span></td><td><span class="empty">—</span></td>
 </tr>
 <tr class="year-group" data-year-header="2020">
-<td colspan="8"><button class="year-group-btn" onclick="toggleYear('2020')"><span class="yr-label">2020년</span><span class="year-count" id="count-2020">0건</span></button></td>
+<td colspan="8"><button class="year-group-btn" onclick="toggleYear('2020')"><span class="yr-label">2020년</span><span class="year-count" id="count-2020">52건</span></button></td>
 </tr>
 <tr class="big-update" data-date="20201230" data-has="hero content event package chapter" data-year="2020">
 <td class="td-date"><span class="month">2020</span>12.30</td>
@@ -3430,7 +3433,7 @@
 <td><div class="cell-items"></div></td><td><span class="empty">—</span></td><td><div class="cell-items"><span class="chip chip-content">『7대죄』 절대복귀 스페셜 스텝업 뽑기 추가</span><span class="chip chip-content">각인 영웅 추가</span><span class="chip chip-content">바이젤 싸움축제(정규전) 전용 규칙, 순위 보상 추가</span><span class="chip chip-content">진보스전 &lt;시즌3&gt; 멀린 리턴즈</span><span class="chip chip-content">진보스전 상점 오픈</span><span class="chip chip-content">도전 스코어 달성 보상</span></div></td>
 <td><div class="cell-items"><span class="chip chip-event">『7대죄』 절대복귀 스페셜 스텝업 뽑기 추가</span><span class="chip chip-event">바이젤 싸움축제(정규전) 전용 규칙, 순위 보상 추가</span></div></td>
 <td><span class="empty">—</span></td>
-<td><div class="cell-items"><span class="chip chip-bug">&lt;제 293화&gt; 간절한 부름 컷신에서 엘레인 몸이 노출되지 않는 현상  수정</span><span class="chip chip-bug">일부 아이템 획득처에 종료된 이벤트인 재앙전이 노출되는 현상 수정</span><span class="chip chip-bug">라메크 교환 소재인 “라메크의 붉은 껍질 조각” 아이템을 판매할 수 있도록 수정</span></div></td>
+<td><div class="cell-items"><span class="chip chip-bug">&lt;제 293화&gt; 간절한 부름 컷신에서 엘레인 몸이 노출되지 않는 현상 &nbsp;수정</span><span class="chip chip-bug">일부 아이템 획득처에 종료된 이벤트인 재앙전이 노출되는 현상 수정</span><span class="chip chip-bug">라메크 교환 소재인 “라메크의 붉은 껍질 조각” 아이템을 판매할 수 있도록 수정</span></div></td>
 </tr>
 <tr data-date="20201112" data-has="hero content event bug" data-year="2020">
 <td class="td-date"><span class="month">2020</span>11.12</td>
@@ -3509,7 +3512,7 @@
 <td class="td-title"><a class="title-link" href="http://forum.netmarble.com/7ds/view/6/435051" target="_blank">9월 17일 업데이트</a></td>
 <td><span class="empty">—</span></td>
 <td><span class="empty">—</span></td><td><div class="cell-items"><span class="chip chip-content">신규 코스튬 추가</span><span class="chip chip-content">시련의 탑</span><span class="chip chip-content">전투 중 성녀의 의복 코스튬을 착용한 여신족 엘리자베스 타겟 시 노출되는 효과 개선</span></div></td>
-<td><div class="cell-items"><span class="chip chip-event">&lt;시즌1&gt;리턴즈 (9/17 12:05 수정)</span><span class="chip chip-event">&lt;시즌1&gt;리턴즈</span><span class="chip chip-event">스토리 이벤트 추가</span></div></td>
+<td><div class="cell-items"><span class="chip chip-event">&lt;시즌1&gt;리턴즈 (9/17 12:05&nbsp;수정)</span><span class="chip chip-event">&lt;시즌1&gt;리턴즈</span><span class="chip chip-event">스토리 이벤트 추가</span></div></td>
 <td><span class="empty">—</span></td>
 <td><div class="cell-items"><span class="chip chip-bug">메인 퀘스트 진행 도중 진입할 수 있는 은총의 빛 사령실에서 고서의 모델링이 비정상적으로 적용되는 현상 수정</span></div></td>
 </tr>
@@ -3570,7 +3573,7 @@
 <td class="td-title"><a class="title-link" href="http://forum.netmarble.com/7ds/view/6/408366" target="_blank">7월 30일 업데이트</a></td>
 <td><div class="cell-items"><a class="hero-link" href="https://forum.netmarble.com/7ds/view/139/408360" target="_blank"><span class="chip chip-hero" data-tip="클릭: 포럼 이동 | 길게: 필터">&lt;사대 천사&gt; 「섬광」의 류드시엘</span></a><a class="hero-link" href="https://forum.netmarble.com/7ds/view/139/408360" target="_blank"><span class="chip chip-hero" data-tip="클릭: 포럼 이동 | 길게: 필터">【3천 년의 기억】 보좌관 게라드</span></a></div></td>
 <td><div class="cell-items"><span class="chip chip-chapter">메인 14챕터</span></div></td><td><div class="cell-items"><span class="chip chip-content">각인 영웅 2종 추가</span><span class="chip chip-content">신규 코스튬 세트 2종 추가</span><span class="chip chip-content">「성전의 기억」픽업 뽑기 추가</span><span class="chip chip-content">신규 전투 콘텐츠 &lt;대난투&gt; 추가</span><span class="chip chip-content">기사단 보스전 &lt;시즌3&gt; 마수 아쿠무 오픈</span><span class="chip chip-content">바이젤 싸움축제(정예전) 전용 룰 추가 (8/3~8/9)</span><span class="chip chip-content">순찰 파견 표기 개선</span><span class="chip chip-content">마을 입장 연출 속도 개선</span></div></td>
-<td><div class="cell-items"><span class="chip chip-event">「성전의 기억」픽업 뽑기 추가</span><span class="chip chip-event">신규 전투 콘텐츠 &lt;대난투&gt; 추가</span><span class="chip chip-event">바이젤 싸움축제(정예전) 전용 룰 추가 (8/3~8/9)</span><span class="chip chip-event">스토리 이벤트 추가</span><span class="chip chip-event">SSR 영웅 선택 뽑기 추가 (7/30 10:21 내용 수정)</span></div></td>
+<td><div class="cell-items"><span class="chip chip-event">「성전의 기억」픽업 뽑기 추가</span><span class="chip chip-event">신규 전투 콘텐츠 &lt;대난투&gt; 추가</span><span class="chip chip-event">바이젤 싸움축제(정예전) 전용 룰 추가 (8/3~8/9)</span><span class="chip chip-event">스토리 이벤트 추가</span><span class="chip chip-event">SSR 영웅 선택 뽑기 추가 (7/30 10:21&nbsp;내용 수정)</span></div></td>
 <td><div class="cell-items"><span class="chip chip-package">신규 패키지 추가</span></div></td>
 <td><span class="empty">—</span></td>
 </tr>
@@ -3693,7 +3696,7 @@
 <td><span class="empty">—</span></td><td><div class="cell-items"><span class="chip chip-content">「마신을 공략하라」 픽업 뽑기 개최</span><span class="chip chip-content">바이젤 싸움축제(정예전) &lt;시즌 3&gt; 개최</span></div></td>
 <td><div class="cell-items"><span class="chip chip-event">「마신을 공략하라」 픽업 뽑기 개최</span><span class="chip chip-event">바이젤 싸움축제(정예전) &lt;시즌 3&gt; 개최</span><span class="chip chip-event">스토리 이벤트 추가</span></div></td>
 <td><span class="empty">—</span></td>
-<td><div class="cell-items"><span class="chip chip-bug">일부 안드로이드 기기에서 견습 성기사 트위고의 UR등급 의상이 깨져보이는 현상 수정</span><span class="chip chip-bug">고서의 생일이 오표기되어 있던 현상 수정</span><span class="chip chip-bug">기존 : 2/8 → 변경 : 6/2</span></div></td>
+<td><div class="cell-items"><span class="chip chip-bug">일부 안드로이드 기기에서 견습 성기사 트위고의 UR등급 의상이 깨져보이는 현상 수정</span><span class="chip chip-bug">고서의 생일이 오표기되어 있던 현상 수정</span><span class="chip chip-bug">기존 : 2/8 →&nbsp;변경 : 6/2</span></div></td>
 </tr>
 <tr class="big-update" data-date="20200416" data-has="hero content event package" data-year="2020">
 <td class="td-date"><span class="month">2020</span>04.16</td>
@@ -3791,7 +3794,7 @@
 <td><span class="empty">—</span></td><td><div class="cell-items"><span class="chip chip-content">각인 영웅 6종 추가</span><span class="chip chip-content">섬멸전 Hell 난이도 보상 변경</span></div></td>
 <td><span class="empty">—</span></td>
 <td><span class="empty">—</span></td>
-<td><div class="cell-items"><span class="chip chip-bug">챕터10 &lt;제170화&gt; 멜리오다스 VS &lt;십계&gt; 전투 중 「불살」의 그레이로드 계금이 적용되지 않는 현상 수정</span><span class="chip chip-bug">챕터11 &lt;제190화&gt; 멜리오다스의 기억 엑스트라 스테이지 전투 중 바닥의 배경이 노출되지 않는 현상 수정</span></div></td>
+<td><div class="cell-items"><span class="chip chip-bug">챕터10 &lt;제170화&gt; 멜리오다스 VS &lt;십계&gt; 전투 중 「불살」의 그레이로드 계금이 적용되지 않는 현상 수정</span><span class="chip chip-bug">챕터11 &lt;제190화&gt; 멜리오다스의 기억 엑스트라 스테이지&nbsp;전투 중 바닥의 배경이 노출되지 않는 현상 수정</span></div></td>
 </tr>
 <tr class="big-update" data-date="20200130" data-has="hero content event package chapter" data-year="2020">
 <td class="td-date"><span class="month">2020</span>01.30</td>
@@ -3830,7 +3833,7 @@
 <td><div class="cell-items"><span class="chip chip-bug">호크패스 수련굴 미션이 2회 카운팅 되는 현상 수정</span><span class="chip chip-bug">메라스큘라, 도겟, 데스피어스 단품 뷰티 상품만 new가 표기되는 현상 수정</span><span class="chip chip-bug">플래티넘 코인 상점 기간 판매 일정이 정상적으로 노출되지 않는 현상 수정</span></div></td>
 </tr>
 <tr class="year-group" data-year-header="2019">
-<td colspan="8"><button class="year-group-btn" onclick="toggleYear('2019')"><span class="yr-label">2019년</span><span class="year-count" id="count-2019">0건</span></button></td>
+<td colspan="8"><button class="year-group-btn" onclick="toggleYear('2019')"><span class="yr-label">2019년</span><span class="year-count" id="count-2019">28건</span></button></td>
 </tr>
 <tr class="big-update" data-date="20191230" data-has="hero content event package bug" data-year="2019">
 <td class="td-date"><span class="month">2019</span>12.30</td>
@@ -3893,7 +3896,7 @@
 <td><span class="empty">—</span></td><td><span class="empty">—</span></td>
 <td><div class="cell-items"><span class="chip chip-event">뽑기 등장 리스트 추가</span><span class="chip chip-event">리오네스 대축제 이벤트 개최</span><span class="chip chip-event">리오네스 대축제 기념 출석 이벤트 진행</span><span class="chip chip-event">월드 챌린지 이벤트 개최</span></div></td>
 <td><div class="cell-items"><span class="chip chip-package">신규 패키지 2종 출시</span></div></td>
-<td><div class="cell-items"><span class="chip chip-bug">팀 편성에 등록되지 않은 영웅이 편성 중으로 표시되는 현상 수정</span><span class="chip chip-bug">자동 반복 진행 중 특정 상황에서 획득 아이템 리스트가 잘못 노출되는 현상 수정</span><span class="chip chip-bug">자동 반복 진행 중 인터넷 연결이 끊긴 후 재접속할 경우, 이전 결과가 같이 노출되는 현상</span><span class="chip chip-bug">제리코 영웅의 영웅 모션 탭에서 “화남”을 선택할 경우, 영웅의 입가 연출이 깨지는 현상 수정</span><span class="chip chip-bug">“챕터 6 &lt;제107화&gt; 고서의 정체” 컷신에서 그림자가 어색하게 노출되는 현상 수정</span><span class="chip chip-bug">갈란 영웅의 SSR 코스튬 착용 상태로  초진화 시 영웅 모델링이 비정상적으로 노출되는 현상 수정</span><span class="chip chip-bug">절전 모드 상태에서 비행 사운드가 출력되는 현상 수정</span><span class="chip chip-bug">iOS 단말기에서 “이메일 연동 → 고객센터 페이지” 접근 후 뒤로가기 선택 시 멈추는 현상 수정</span></div></td>
+<td><div class="cell-items"><span class="chip chip-bug">팀 편성에 등록되지 않은 영웅이 편성 중으로 표시되는 현상 수정</span><span class="chip chip-bug">자동 반복 진행 중 특정 상황에서 획득 아이템 리스트가 잘못 노출되는 현상 수정</span><span class="chip chip-bug">자동 반복 진행 중 인터넷 연결이 끊긴 후 재접속할 경우, 이전 결과가 같이 노출되는 현상</span><span class="chip chip-bug">제리코 영웅의 영웅 모션 탭에서 “화남”을 선택할 경우, 영웅의 입가 연출이 깨지는 현상 수정</span><span class="chip chip-bug">“챕터 6 &lt;제107화&gt; 고서의 정체” 컷신에서 그림자가 어색하게 노출되는 현상 수정</span><span class="chip chip-bug">갈란 영웅의 SSR 코스튬 착용 상태로 &nbsp;초진화 시 영웅 모델링이 비정상적으로 노출되는 현상 수정</span><span class="chip chip-bug">절전 모드 상태에서 비행 사운드가 출력되는 현상 수정</span><span class="chip chip-bug">iOS 단말기에서 “이메일 연동 → 고객센터 페이지” 접근 후 뒤로가기 선택 시 멈추는 현상 수정</span></div></td>
 </tr>
 <tr data-date="20191107" data-has="bug hero" data-year="2019">
 <td class="td-date"><span class="month">2019</span>11.07</td>
@@ -3927,7 +3930,7 @@
 <td class="td-title"><a class="title-link" href="https://forum.netmarble.com/7ds/view/34/257586" target="_blank">10월 17일 업데이트</a></td>
 <td><div class="cell-items"><a class="hero-link" href="https://forum.netmarble.com/7ds/view/139/257587" target="_blank"><span class="chip chip-hero" data-tip="클릭: 포럼 이동 | 길게: 필터">【할로윈】 단장 멜리오다스</span></a><a class="hero-link" href="https://forum.netmarble.com/7ds/view/139/257587" target="_blank"><span class="chip chip-hero" data-tip="클릭: 포럼 이동 | 길게: 필터">【할로윈】 수호자 길라</span></a><a class="hero-link" href="https://forum.netmarble.com/7ds/view/139/257587" target="_blank"><span class="chip chip-hero" data-tip="클릭: 포럼 이동 | 길게: 필터">【할로윈】 수호자 엘레인</span></a></div></td>
 <td><span class="empty">—</span></td><td><span class="empty">—</span></td>
-<td><div class="cell-items"><span class="chip chip-event">호박 축제 대소동 이벤트 월드 추가</span><span class="chip chip-event">뽑기 등장 리스트 추가</span><span class="chip chip-event">할로윈 관련 이벤트 업적 추가</span><span class="chip chip-event">바이젤 싸움축제 전용 요리 2종 추가</span><span class="chip chip-event">싸움축제 점수 획득/감소량 상승 이벤트 종료(10/17 10:36 내용 추가)</span></div></td>
+<td><div class="cell-items"><span class="chip chip-event">호박 축제 대소동 이벤트 월드 추가</span><span class="chip chip-event">뽑기 등장 리스트 추가</span><span class="chip chip-event">할로윈 관련 이벤트 업적 추가</span><span class="chip chip-event">바이젤 싸움축제 전용 요리 2종 추가</span><span class="chip chip-event">싸움축제 점수 획득/감소량 상승 이벤트 종료(10/17 10:36&nbsp;내용 추가)</span></div></td>
 <td><div class="cell-items"><span class="chip chip-package">신규패키지 3종 추가</span></div></td>
 <td><div class="cell-items"><span class="chip chip-bug">“&lt;제 118화&gt; 기억의 의미” 스테이지 몬스터 고서의 필살기 연출이 어색한 현상 수정</span><span class="chip chip-bug">섬멸전 클리어 시점에 튕길 경우, 파티장/파티원의 클리어 결과가 서로 다른 현상 수정</span><span class="chip chip-bug">간헐적으로 몬스터가 사라지는 현상</span><span class="chip chip-bug">간헐적으로 전투 시 카드가 보이지않는 현상</span><span class="chip chip-bug">PvP 진행 중 간헐적으로 카드 이동이 되지 않는 현상 수정</span><span class="chip chip-bug">간헐적으로 7챕터 퀘스트가 진행되지 않는 현상 수정</span><span class="chip chip-bug">이전 퀘스트 완료를 완료하기 전 다음 퀘스트 스테이지를 진행할 경우 발생하는 현상</span><span class="chip chip-bug">특정 상황에서 옷걸이에 코스튬이 6개 등록되는 현상 수정</span></div></td>
 </tr>
@@ -4085,7 +4088,7 @@
 <td><div class="cell-items"><span class="chip chip-bug">iOS 결제 미허용 접속 불가 수정</span><span class="chip chip-bug">이벤트 배너 미노출 수정</span><span class="chip chip-bug">요리 퀘스트 진행 불가 수정</span><span class="chip chip-bug">섬멸전 악연·PvP 서든데스 버프 수정</span><span class="chip chip-bug">기타 다수 오류 수정</span></div></td>
 </tr>
 </tbody>
-<div id="no-result-msg">🔍 검색 결과가 없습니다.</div></table>
+</table>
 </div>
 <div class="side-panel" id="side-panel">
 <div class="side-panel-header">
@@ -4100,7 +4103,7 @@
 <span class="sp-label">업데이트 날짜</span>
 <span class="sp-value" id="sp-date"></span>
 </div>
-<hr class="sp-divider"/>
+<hr class="sp-divider">
 <div class="sp-info-row">
 <span class="sp-label">포럼 링크</span>
 <span class="sp-value" id="sp-url"></span>
@@ -4111,13 +4114,13 @@
 <div class="side-overlay" id="side-overlay"></div>
 <div class="eov" id="eov">
 <div class="emw">
-<h3 id="em-title">추가</h3>
-<div id="em-row">
-<label>날짜 (YYYY.MM.DD)</label><input id="em-date" maxlength="10" placeholder="2026.04.23"/>
-<label>업데이트 제목</label><input id="em-ttl" placeholder="4월 23일 업데이트"/>
-<label>업데이트 안내 링크</label><input id="em-rlink" placeholder="https://forum.netmarble.com/7ds/view/34/..."/>
+<h3 id="em-title">칩 추가</h3>
+<div id="em-row" style="display: none;">
+<label>날짜 (YYYY.MM.DD)</label><input id="em-date" maxlength="10" placeholder="2026.04.23">
+<label>업데이트 제목</label><input id="em-ttl" placeholder="4월 23일 업데이트">
+<label>업데이트 안내 링크</label><input id="em-rlink" placeholder="https://forum.netmarble.com/7ds/view/34/...">
 </div>
-<div id="em-chip" style="display:none">
+<div id="em-chip" style="display: block;">
 <label>카테고리</label>
 <select id="em-type">
 <option value="chip-hero">영웅</option>
@@ -4127,8 +4130,8 @@
 <option value="chip-bug">버그수정</option>
 <option value="chip-chapter">챕터</option>
 </select>
-<label>내용</label><input id="em-text" placeholder="칩 내용"/>
-<div id="em-link-wrap"><label>포럼 링크 (영웅 칩)</label><input id="em-link" placeholder="https://forum.netmarble.com/..."/></div>
+<label>내용</label><input id="em-text" placeholder="칩 내용">
+<div id="em-link-wrap" class=""><label>포럼 링크 (영웅 칩)</label><input id="em-link" placeholder="https://forum.netmarble.com/..."></div>
 </div>
 <div class="emw-btns"><button id="em-cancel">취소</button><button id="em-confirm">추가</button></div>
 </div></div>
@@ -5045,5 +5048,6 @@
 <!-- 사이드 패널 -->
 
 
-</div></body>
-</html>
+</div>
+
+</body></html>
