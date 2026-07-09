@@ -69,17 +69,55 @@ python3 tools/add_update_row.py --spec .tmp/spec_draft.json --file index.html
 dry-run 결과를 기술 용어 없이 자연스러운 문장으로 정리해서 보여준다: 날짜, 새 영웅, 챕터, 콘텐츠, 이벤트,
 패키지, 버그수정 요약 + 패치노트 원문 링크. "이대로 반영할까요?"라고 묻는다.
 
-### 8. 반영
-승인받으면:
+### 8. 반영 (파일 수정)
+승인받으면 먼저 로컬 파일에 실제로 적용한다:
 ```
 python3 tools/add_update_row.py --spec .tmp/spec_draft.json --file index.html --apply
-git -C . add index.html
-git -C . commit -m "add: N월 N일 업데이트 반영"
-git -C . push
 ```
-푸시까지 끝나면 완료 보고 (반영된 날짜, 커밋 요약).
 
-### 9. 실패 처리
+### 9. GitHub에 push — 반드시 아래 방식대로 (일반 `git commit && git push`는 이 샌드박스에서 안 통함)
+이 작업 환경(bash 샌드박스)에서 사용자 폴더는 네트워크로 마운트된 폴더라서, `.git` 안의 잠금 파일
+(`index.lock`, `HEAD.lock`, `refs/heads/main.lock` 등)을 한 번 만들고 나면 **삭제가 안 되는** 경우가
+있다 (`Operation not permitted`). 그래서 평범한 `git add / commit / push`는 잠금 충돌로 실패하기 쉽다.
+대신 아래처럼 **로컬 ref(HEAD, refs/heads/main)를 건드리지 않는 방식**으로 커밋을 만들어서 원격에
+직접 push한다. 인증 토큰은 `.env`의 `GITHUB_TOKEN`에 저장되어 있다 (다른 곳에 절대 출력하지 말 것,
+로그에도 마스킹해서 남길 것).
+
+**아래 전체를 하나의 bash 호출(한 번의 명령 블록)로 실행한다.** 호출을 여러 번 나누면 이전 호출에서
+만든 잠금 파일을 다음 호출이 못 지우는 문제가 또 생긴다.
+
+```bash
+set -e
+cd <저장소 경로>
+
+GITHUB_TOKEN=$(grep '^GITHUB_TOKEN=' .env | cut -d= -f2-)
+REMOTE_TIP=$(git ls-remote "https://${GITHUB_TOKEN}@github.com/sjhmoon1130/7sin_gc.git" main | cut -f1)
+
+export GIT_INDEX_FILE=/tmp/gitindex_push_$$
+rm -f "$GIT_INDEX_FILE"
+git read-tree "$REMOTE_TIP"
+git add index.html          # 이번에 수정한 파일만 add (tools/workflows 등 다른 파일을 바꿨으면 같이 add)
+NEWTREE=$(git write-tree)
+NEWCOMMIT=$(git -c user.name="moonpan" -c user.email="moonpan@moonpanui-MacBookPro.local" \
+  commit-tree "$NEWTREE" -p "$REMOTE_TIP" -m "add: N월 N일 업데이트 반영")
+
+git push "https://${GITHUB_TOKEN}@github.com/sjhmoon1130/7sin_gc.git" "${NEWCOMMIT}:refs/heads/main" \
+  2>&1 | sed "s/${GITHUB_TOKEN}/***TOKEN***/g"
+```
+
+- `REMOTE_TIP`을 부모로 써야 한다 (로컬 `main`이 원격보다 뒤처져 있을 수 있어서, 로컬 HEAD를 부모로 쓰면
+  push가 "fetch first" 오류로 거부된다).
+- push 결과가 `<old>..<new>  <sha> -> main` 형태로 나오면 성공.
+- 이 방식은 로컬 `refs/heads/main`을 갱신하지 않는다 (그래서 잠금 문제를 피할 수 있음). 로컬 브랜치가
+  원격과 안 맞아도 다음 주 실행에는 지장 없다 — 매번 `REMOTE_TIP`을 원격에서 새로 읽어오기 때문이다.
+- 사장님이 직접 터미널에서 이 폴더를 쓸 때 로컬 `main`이 뒤처져 보일 수 있는데, 그건
+  `git pull --rebase origin main` 한 번으로 정리된다. 필요하면 이 사실을 보고에 한 줄 덧붙인다.
+
+푸시까지 끝나면 완료 보고 (반영된 날짜, 커밋 sha, 커밋 링크: `https://github.com/sjhmoon1130/7sin_gc/commit/<sha>`).
+
+### 10. 실패 처리
 - 브라우저 접근 불가 → 위 "필요한 도구" 항목대로 보고 후 종료.
 - `add_update_row.py`가 중복(exit 2)이나 새 연도 그룹 없음(exit 3) 등의 오류를 내면, 손으로 원인을 확인하고
   사장에게 상황을 설명한다. 억지로 파일을 직접 편집해서 우회하지 않는다.
+- push가 계속 실패하면 (토큰 만료 등) 억지로 재시도하지 말고, 로컬 반영은 끝났다는 것과 실패 원인을
+  사장에게 보고한다.
