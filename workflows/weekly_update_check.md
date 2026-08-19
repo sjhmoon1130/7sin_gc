@@ -91,7 +91,14 @@ set -e
 cd <저장소 경로>
 
 GITHUB_TOKEN=$(grep '^GITHUB_TOKEN=' .env | cut -d= -f2-)
-REMOTE_TIP=$(git ls-remote "https://${GITHUB_TOKEN}@github.com/sjhmoon1130/7sin_gc.git" main | cut -f1)
+URL="https://${GITHUB_TOKEN}@github.com/sjhmoon1130/7sin_gc.git"
+
+# 필수: 원격 최신 커밋 객체를 로컬로 먼저 가져온다.
+# (이 단계를 빼면 read-tree가 "failed to unpack tree object" 로 실패한다 —
+#  로컬 저장소에 원격 최신 커밋의 객체가 없기 때문. 2026-08-19 실행에서 발생)
+git fetch --no-tags "$URL" main 2>&1 | sed "s/${GITHUB_TOKEN}/***TOKEN***/g"
+
+REMOTE_TIP=$(git ls-remote "$URL" main | cut -f1)
 
 export GIT_INDEX_FILE=/tmp/gitindex_push_$$
 rm -f "$GIT_INDEX_FILE"
@@ -101,10 +108,12 @@ NEWTREE=$(git write-tree)
 NEWCOMMIT=$(git -c user.name="moonpan" -c user.email="moonpan@moonpanui-MacBookPro.local" \
   commit-tree "$NEWTREE" -p "$REMOTE_TIP" -m "add: N월 N일 업데이트 반영")
 
-git push "https://${GITHUB_TOKEN}@github.com/sjhmoon1130/7sin_gc.git" "${NEWCOMMIT}:refs/heads/main" \
+git push "$URL" "${NEWCOMMIT}:refs/heads/main" \
   2>&1 | sed "s/${GITHUB_TOKEN}/***TOKEN***/g"
 ```
 
+- 실행 중 `unable to unlink '.git/objects/.../tmp_obj_...': Operation not permitted` 같은
+  warning이 여러 줄 나오는 건 정상이다 (마운트된 폴더 특성). 마지막 push 결과만 확인하면 된다.
 - `REMOTE_TIP`을 부모로 써야 한다 (로컬 `main`이 원격보다 뒤처져 있을 수 있어서, 로컬 HEAD를 부모로 쓰면
   push가 "fetch first" 오류로 거부된다).
 - push 결과가 `<old>..<new>  <sha> -> main` 형태로 나오면 성공.
