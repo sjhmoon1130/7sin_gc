@@ -28,6 +28,7 @@ index.html(7대죄 그랜드크로스 업데이트 대시보드)에 새 주간 �
 
 hero 항목의 url이 없으면 링크 없는 칩(다른 카테고리처럼)으로 들어간다.
 hero/chapter/content/event/package/bug 는 전부 선택 항목(없으면 "—" 빈 칸).
+한 칸이 8줄을 넘으면 앞 7개만 보여주고 마지막 줄을 "…외 N건 · 공지 확인"(공지 링크)으로 자동 대체한다.
 
 사용법:
   python add_update_row.py --spec spec.json --file index.html            # dry-run (미리보기만, 파일 변경 없음)
@@ -49,6 +50,9 @@ from pathlib import Path
 
 CATEGORY_ORDER = ["hero", "chapter", "content", "event", "package", "bug"]
 
+# 한 칸에 칩이 이 개수를 넘으면 (MAX_LINES-1)개만 보여주고 마지막 줄을 "…외 N건 · 공지 확인" 링크로 대체
+MAX_LINES = 8
+
 
 def esc(text: str) -> str:
     """HTML 텍스트 노드용 이스케이프 (속성 아님)."""
@@ -59,10 +63,15 @@ def esc_attr(text: str) -> str:
     return html.escape(text, quote=True)
 
 
-def build_cell(category: str, items) -> str:
+def build_cell(category: str, items, note_url: str = "") -> str:
     """카테고리 하나의 <td> 내부(칩들 or empty)를 만든다. <td>...</td> 자체는 감싸지 않는다."""
     if not items:
         return '<span class="empty">—</span>'
+
+    hidden = 0
+    if len(items) > MAX_LINES:
+        hidden = len(items) - (MAX_LINES - 1)
+        items = items[: MAX_LINES - 1]
 
     chips = []
     for item in items:
@@ -82,6 +91,12 @@ def build_cell(category: str, items) -> str:
             chips.append(chip)
         else:
             chips.append('<span class="chip chip-' + category + '">' + esc(item) + "</span>")
+
+    if hidden:
+        chips.append(
+            '<a class="chip-more" href="' + esc_attr(note_url) + '" target="_blank">'
+            + f"…외 {hidden}건 · 공지 확인</a>"
+        )
 
     return '<div class="cell-items">' + "".join(chips) + "</div>"
 
@@ -113,7 +128,7 @@ def build_row_html(spec: dict) -> tuple:
         f'<td class="td-title">{title_html}</td>',
     ]
     for cat in CATEGORY_ORDER:
-        cells.append(f"<td>{build_cell(cat, spec.get(cat))}</td>")
+        cells.append(f"<td>{build_cell(cat, spec.get(cat), note_url)}</td>")
 
     tr_class = ' class="big-update"' if big_update else ""
     tr_open = f'<tr{tr_class} data-date="{data_date}" data-year="{year}" data-has="{esc_attr(data_has)}">'
